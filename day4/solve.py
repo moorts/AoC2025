@@ -4,9 +4,6 @@ with open("input.txt") as f:
 def neighbors(x, y):
     return set([(y + dy, x + dx) for dx in [-1, 0, 1] for dy in [-1, 0, 1] if (dx != 0 or dy != 0)])
 
-def cut(s, n, m):
-    return set((y, x) for (y, x) in s if (0 <= y < n) and (0 <= x < m))
-
 def part1():
     n = len(data)
     m = len(data[0])
