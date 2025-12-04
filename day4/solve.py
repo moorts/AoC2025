@@ -51,7 +51,7 @@ def part2_better():
     working_set = set(rolls)
 
     score = 0
-    while True:
+    while working_set:
         new_working_set = set()
         for (y, x) in working_set:
             if len(rolls & neighbors(x, y)) < 4:
@@ -59,8 +59,6 @@ def part2_better():
                     score += 1
                     rolls.remove((y, x))
                     new_working_set |= (neighbors(x, y) & rolls)
-        if not new_working_set:
-            break
         working_set = new_working_set
     return score
 
