@@ -1,4 +1,5 @@
 from functools import cache
+from collections import defaultdict
 
 with open("input.txt") as f:
     grid = f.read().strip().splitlines()
@@ -51,10 +52,42 @@ def recurse(start_y, start_x, n, m):
 def part2():
     n = len(grid)
     m = len(grid[0])
-    print(n, len(grid[0]))
     assert grid[0][m // 2] == 'S'
 
     return recurse(1, m // 2, n, m)
 
+def part2_alt():
+    n = len(grid)
+    m = len(grid[0])
+    assert grid[0][m // 2] == 'S'
+    
+    timelines = defaultdict(int)
+    timelines[m // 2] = 1
+
+    for y in range(1, n-1):
+        new_timelines = defaultdict(int)
+        for x, count in timelines.items():
+            ty, tx = y + 1, x
+            if grid[ty][tx] == '.':
+                new_timelines[tx] += count
+            else:
+                if 0 < tx:
+                    new_timelines[tx - 1] += count
+                if tx < m - 1:
+                    new_timelines[tx + 1] += count
+        timelines = new_timelines
+
+    return sum(timelines.values())
+
+import time
+
 print(part1())
+
+t = time.process_time()
 print(part2())
+elapsed_time = time.process_time() - t
+print(elapsed_time)
+t = time.process_time()
+print(part2_alt())
+elapsed_time = time.process_time() - t
+print(elapsed_time)
